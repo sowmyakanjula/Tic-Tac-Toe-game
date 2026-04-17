@@ -1,0 +1,37 @@
+services:
+  - type: web
+    name: lila-nakama
+    runtime: docker
+    dockerContext: ./nakama
+    dockerfilePath: ./nakama/Dockerfile
+    healthCheckPath: /
+    plan: free
+    envVars:
+      - key: NAKAMA_ADMIN_USER
+        value: admin
+      - key: NAKAMA_ADMIN_PASSWORD
+        sync: false
+
+  - type: web
+    name: lila-cockroach
+    runtime: docker
+    image:
+      url: cockroachdb/cockroach:v23.1.11
+    dockerCommand: start-single-node --insecure --http-addr 0.0.0.0:8080 --listen-addr 0.0.0.0:26257
+    plan: free
+
+staticSites:
+  - name: lila-tictactoe-web
+    rootDir: frontend
+    buildCommand: npm install && npm run build
+    publishPath: dist
+    envVars:
+      - key: VITE_NAKAMA_HOST
+        sync: false
+      - key: VITE_NAKAMA_PORT
+        value: "7350"
+      - key: VITE_NAKAMA_SERVER_KEY
+        value: defaultkey
+      - key: VITE_NAKAMA_USE_SSL
+        value: "true"
+

@@ -1,0 +1,275 @@
+.shell {
+  width: min(1200px, calc(100% - 2rem));
+  margin: 0 auto;
+  padding: 2rem 0 3rem;
+}
+
+.hero {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.hero-copy,
+.hero-card,
+.panel {
+  background: rgba(248, 244, 232, 0.82);
+  border: 1px solid rgba(53, 39, 22, 0.12);
+  border-radius: 24px;
+  box-shadow: 0 18px 60px rgba(67, 42, 8, 0.08);
+  backdrop-filter: blur(12px);
+}
+
+.hero-copy {
+  padding: 2rem;
+}
+
+.hero-card {
+  padding: 1.5rem;
+  display: grid;
+  gap: 1rem;
+}
+
+.eyebrow,
+.panel-kicker,
+.player-label {
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-size: 0.74rem;
+  color: #8a6740;
+  margin: 0 0 0.75rem;
+}
+
+.lead {
+  max-width: 56ch;
+  color: #574229;
+}
+
+.field {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.field span {
+  font-weight: 700;
+  color: #503920;
+}
+
+.field input {
+  background: rgba(255, 252, 245, 0.85);
+  border: 1px solid rgba(101, 76, 43, 0.18);
+  border-radius: 14px;
+  padding: 0.9rem 1rem;
+  font: inherit;
+  color: #2d1e0f;
+}
+
+.mode-switch,
+.actions,
+.match-meta,
+.players {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.mode-switch button,
+.actions button,
+.board button,
+.room-side button,
+.secondary {
+  border: 0;
+  border-radius: 999px;
+  padding: 0.8rem 1rem;
+  font: inherit;
+  font-weight: 700;
+  transition: transform 0.18s ease, opacity 0.18s ease, background 0.18s ease;
+}
+
+.mode-switch button,
+.secondary {
+  background: rgba(93, 67, 34, 0.08);
+  color: #5c4223;
+}
+
+.mode-switch button.active,
+.actions button,
+.room-side button,
+.board button:hover:not(:disabled) {
+  background: linear-gradient(135deg, #ca7c2f, #a4402a);
+  color: #fff9f1;
+}
+
+.actions button:disabled,
+.board button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.status-strip {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.95rem 1rem;
+  background: rgba(255, 252, 245, 0.8);
+  border-radius: 16px;
+  color: #4a341e;
+}
+
+.dot {
+  width: 0.7rem;
+  height: 0.7rem;
+  border-radius: 999px;
+}
+
+.dot.online {
+  background: #3ca66b;
+}
+
+.dot.offline {
+  background: #c05d3a;
+}
+
+.dashboard {
+  display: grid;
+  grid-template-columns: 1.25fr 0.9fr 0.9fr;
+  gap: 1.5rem;
+}
+
+.panel {
+  padding: 1.4rem;
+}
+
+.board-panel {
+  grid-row: span 2;
+}
+
+.panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.chip {
+  border-radius: 999px;
+  background: rgba(93, 67, 34, 0.08);
+  color: #5d4426;
+  padding: 0.55rem 0.8rem;
+  font-weight: 700;
+}
+
+.player-card {
+  flex: 1 1 200px;
+  background: rgba(255, 252, 245, 0.78);
+  border-radius: 18px;
+  padding: 1rem;
+  display: grid;
+  gap: 0.25rem;
+}
+
+.board {
+  margin-top: 1rem;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+.tile {
+  aspect-ratio: 1;
+  font-size: clamp(2rem, 7vw, 3.8rem);
+  background: rgba(255, 252, 245, 0.95);
+  color: #4a3218;
+}
+
+.tile.winner {
+  background: linear-gradient(135deg, #f3bb65, #df7a35);
+  color: #fffaf2;
+}
+
+.summary,
+.room-list,
+.leaderboard {
+  display: grid;
+  gap: 0.9rem;
+}
+
+.room-row,
+.leader-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: center;
+  padding: 1rem;
+  border-radius: 18px;
+  background: rgba(255, 252, 245, 0.78);
+}
+
+.room-row p,
+.leader-row p,
+.meta-note,
+.summary p {
+  margin: 0.2rem 0 0;
+  color: #6b5131;
+  word-break: break-word;
+}
+
+.room-side,
+.leader-stats {
+  display: grid;
+  gap: 0.35rem;
+  justify-items: end;
+  text-align: right;
+}
+
+.empty-state {
+  padding: 1rem;
+  border-radius: 18px;
+  background: rgba(255, 252, 245, 0.78);
+  color: #6e5434;
+}
+
+.outcome {
+  font-weight: 700;
+  color: #4a3218;
+}
+
+@media (max-width: 960px) {
+  .hero,
+  .dashboard {
+    grid-template-columns: 1fr;
+  }
+
+  .board-panel {
+    grid-row: auto;
+  }
+}
+
+@media (max-width: 640px) {
+  .shell {
+    width: min(100% - 1rem, 1200px);
+    padding-top: 1rem;
+  }
+
+  .hero-copy,
+  .hero-card,
+  .panel {
+    border-radius: 20px;
+  }
+
+  .panel-header,
+  .room-row,
+  .leader-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .room-side,
+  .leader-stats {
+    justify-items: start;
+    text-align: left;
+  }
+}

@@ -1,0 +1,31 @@
+version: "3.9"
+
+services:
+  cockroachdb:
+    image: cockroachdb/cockroach:v23.1.11
+    command: start-single-node --insecure --store=attrs=ssd,path=/var/lib/cockroach/
+    volumes:
+      - cockroach_data:/var/lib/cockroach
+    ports:
+      - "26257:26257"
+      - "8080:8080"
+
+  nakama:
+    build:
+      context: ./nakama
+    depends_on:
+      - cockroachdb
+    entrypoint:
+      - /bin/sh
+      - -ecx
+      - |
+        /nakama/nakama migrate up --database.address root@cockroachdb:26257 &&
+        exec /nakama/nakama --name lila-tictactoe --database.address root@cockroachdb:26257 --logger.level DEBUG --session.token_expiry_sec 7200 --runtime.path /nakama/data/modules
+    ports:
+      - "7349:7349"
+      - "7350:7350"
+      - "7351:7351"
+
+volumes:
+  cockroach_data:
+

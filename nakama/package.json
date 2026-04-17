@@ -1,0 +1,23 @@
+{
+  "name": "nakama",
+  "version": "1.0.0",
+  "description": "Server-authoritative Tic-Tac-Toe runtime for Nakama",
+  "main": "build/index.js",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "keywords": [
+    "nakama",
+    "multiplayer",
+    "tic-tac-toe"
+  ],
+  "author": "Codex",
+  "license": "MIT",
+  "dependencies": {
+    "nakama-runtime": "github:heroiclabs/nakama-common#master"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.5"
+  }
+}

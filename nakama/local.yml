@@ -1,0 +1,10 @@
+name: lila-tictactoe
+database:
+  address:
+    - root@cockroachdb:26257
+socket:
+  server_key: defaultkey
+console:
+  username: admin
+  password: admin
+
