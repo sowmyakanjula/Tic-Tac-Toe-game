@@ -364,7 +364,11 @@ function App() {
     }
 
     try {
-      await socket.joinMatch(matchId)
+      const match = await socket.joinMatch(matchId)
+      setMatchState((current) => ({
+        ...current,
+        matchId: match.match_id,
+      }))
       setNotice('Joined room successfully.')
       await refreshLobby()
     } catch (error) {
