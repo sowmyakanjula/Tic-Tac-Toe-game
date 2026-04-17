@@ -1,37 +1,51 @@
+databases:
+  - name: lila-nakama-db
+    plan: free
+    databaseName: nakama
+    user: nakama
+    region: oregon
+    postgresMajorVersion: "16"
+
 services:
   - type: web
     name: lila-nakama
     runtime: docker
-    dockerContext: ./nakama
-    dockerfilePath: ./nakama/Dockerfile
-    healthCheckPath: /
+    repo: https://github.com/sowmyakanjula/Tic-Tac-Toe-game
+    branch: main
+    rootDir: nakama
+    dockerContext: .
+    dockerfilePath: ./Dockerfile
     plan: free
     envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: lila-nakama-db
+          property: connectionString
+      - key: NAKAMA_SERVER_KEY
+        generateValue: true
+      - key: SESSION_ENCRYPTION_KEY
+        generateValue: true
+      - key: SESSION_REFRESH_ENCRYPTION_KEY
+        generateValue: true
+      - key: RUNTIME_HTTP_KEY
+        generateValue: true
       - key: NAKAMA_ADMIN_USER
         value: admin
       - key: NAKAMA_ADMIN_PASSWORD
-        sync: false
+        generateValue: true
 
   - type: web
-    name: lila-cockroach
-    runtime: docker
-    image:
-      url: cockroachdb/cockroach:v23.1.11
-    dockerCommand: start-single-node --insecure --http-addr 0.0.0.0:8080 --listen-addr 0.0.0.0:26257
-    plan: free
-
-staticSites:
-  - name: lila-tictactoe-web
+    name: lila-tictactoe-web
+    runtime: static
     rootDir: frontend
-    buildCommand: npm install && npm run build
-    publishPath: dist
+    buildCommand: npm ci && npm run build
+    staticPublishPath: dist
     envVars:
       - key: VITE_NAKAMA_HOST
         sync: false
       - key: VITE_NAKAMA_PORT
-        value: "7350"
+        value: "443"
       - key: VITE_NAKAMA_SERVER_KEY
-        value: defaultkey
+        sync: false
       - key: VITE_NAKAMA_USE_SSL
         value: "true"
-

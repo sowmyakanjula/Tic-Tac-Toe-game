@@ -105,13 +105,13 @@ The frontend is ready for static hosting on Vercel, Netlify, or GitHub Pages. A 
 
 ### Backend
 
-The backend is containerized through `nakama/Dockerfile`. Deploy it together with CockroachDB on a provider that supports long-running services such as Render, Railway, Fly.io, DigitalOcean Apps, or Heroic Cloud.
+The backend is containerized through `nakama/Dockerfile`. In production it can run against a managed PostgreSQL-compatible database on a host such as Render, Railway, Fly.io, DigitalOcean Apps, or Heroic Cloud.
 
 ### Recommended production steps
 
-1. Provision CockroachDB.
-2. Build and deploy the `nakama/` Docker image.
-3. Set the frontend environment variables to the public Nakama hostname and protocol.
+1. Provision a managed database and assemble the Nakama `DATABASE_ADDRESS` value in the format `user:password@host:port/database`.
+2. Build and deploy the `nakama/` Docker image with `DATABASE_ADDRESS`, `NAKAMA_SERVER_KEY`, `SESSION_ENCRYPTION_KEY`, `SESSION_REFRESH_ENCRYPTION_KEY`, and `RUNTIME_HTTP_KEY`.
+3. Set the frontend environment variables to the public Nakama hostname, port, server key, and SSL mode.
 4. Deploy the static frontend.
 
 ## Deliverables checklist
@@ -123,5 +123,4 @@ The backend is containerized through `nakama/Dockerfile`. Deploy it together wit
 
 ## Environment note
 
-This machine did not include Docker, GitHub CLI, or hosting credentials, so the repository has been prepared for publish/deploy, but the final remote push and cloud rollout still require authenticated access to GitHub and a hosting provider.
-
+The project can be tested locally without Docker, and the production deployment can be driven from GitHub plus a managed host such as Render for the backend and GitHub Pages for the frontend.

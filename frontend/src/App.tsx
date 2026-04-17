@@ -72,10 +72,6 @@ type LeaderboardEntry = {
   bestStreak: number
 }
 
-type RpcEnvelope<T> = {
-  payload?: string
-} & T
-
 const initialMatch: MatchSnapshot = {
   matchId: '',
   status: 'idle',
@@ -126,22 +122,19 @@ function parsePayload<T>(value: unknown, fallback: T): T {
     return fallback
   }
 
-  const payload = (value as RpcEnvelope<T>).payload
-  if (!payload) {
+  const payload = (value as { payload?: unknown }).payload
+  if (!payload || typeof payload !== 'object') {
     return fallback
   }
 
-  try {
-    return JSON.parse(payload) as T
-  } catch {
-    return fallback
-  }
+  return payload as T
 }
 
 function App() {
   const clientRef = useRef<Client | null>(null)
   const socketRef = useRef<Socket | null>(null)
   const sessionRef = useRef<Session | null>(null)
+  const connectRef = useRef<() => Promise<void>>(async () => {})
   const mountedRef = useRef(true)
   const initialConnectDoneRef = useRef(false)
   const [username, setUsername] = useState(loadOrCreateUsername)
@@ -271,17 +264,23 @@ function App() {
   }, [connecting, joinMatchedPair, refreshLobby, username])
 
   useEffect(() => {
+    connectRef.current = connect
+  }, [connect])
+
+  useEffect(() => {
     mountedRef.current = true
     if (!initialConnectDoneRef.current) {
       initialConnectDoneRef.current = true
-      void connect()
+      void connectRef.current()
     }
 
     return () => {
       mountedRef.current = false
+      // Keep the websocket alive for the whole page lifetime instead of
+      // disconnecting during a normal callback identity change.
       socketRef.current?.disconnect(true)
     }
-  }, [connect])
+  }, [])
 
   useEffect(() => {
     if (!connected) {

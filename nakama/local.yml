@@ -4,7 +4,13 @@ database:
     - root@cockroachdb:26257
 socket:
   server_key: defaultkey
+  port: 7350
+session:
+  encryption_key: defaultencryptionkey
+  refresh_encryption_key: defaultrefreshencryptionkey
+runtime:
+  http_key: defaulthttpkey
 console:
   username: admin
   password: admin
-
+  port: 7351
